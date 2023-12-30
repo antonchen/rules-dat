@@ -1,0 +1,79 @@
+name: Build rules dat files
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "30 22 * * *" # 6:30 AM UTC+8
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - "**/README.md"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set variables
+        run: |
+          echo "GOAMD64=v3" >> $GITHUB_ENV
+          echo "BUILDTIME=$(TZ=Asia/Shanghai date +'%Y-%m-%d %H:%M')" >> $GITHUB_ENV
+          echo "GOOGLE_DOMAINS_URL=https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/google.china.conf" >> $GITHUB_ENV
+          echo "APPLE_DOMAINS_URL=https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/apple.china.conf" >> $GITHUB_ENV
+          echo "WIN_SPY=https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/spy.txt" >> $GITHUB_ENV
+          echo "WIN_UPDATE=https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/update.txt" >> $GITHUB_ENV
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          repository: antonchen/rules-dat
+          path: rules-dat
+
+      - name: Create google-cn and apple-cn
+        run: |
+          mkdir -p rules-dat/data
+          curl -sSL $GOOGLE_DOMAINS_URL | perl -ne '/^server=\/([^\/]+)\// && print "full:$1\n"' > rules-dat/data/google-cn
+          curl -sSL $APPLE_DOMAINS_URL | perl -ne '/^server=\/([^\/]+)\// && print "full:$1\n"' > rules-dat/data/apple-cn
+          curl -sSL $WIN_SPY | grep "0.0.0.0" | awk '{print $2}' > rules-dat/data/win-spy
+          curl -sSL $WIN_UPDATE | grep "0.0.0.0" | awk '{print $2}' > rules-dat/data/win-update
+
+      - name: Create steam and steam@cn
+        env:
+          SED: sed '/^\s*#/d' | sed 's/DOMAIN,//g' | sed 's/DOMAIN-SUFFIX,//g' | sed 's/DOMAIN-KEYWORD,/keyword:/g'
+        run: |
+          curl -sSL https://github.com/v2fly/domain-list-community/raw/master/data/steam > rules-dat/data/steam
+          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/SteamCN/SteamCN.yaml | ${{ env.SED }} > steamcn.txt
+          while read line; do grep -q "$line @cn" rules-dat/data/steam || sed -i "/$line/ s/$/ @cn/" rules-dat/data/steam; done < steamcn.txt
+          rm -f steamcn.txt
+
+      - name: Build geosite-lite.dat file
+        env:
+          BM7_SED: grep DOMAIN | grep -v "#" | sed 's/  - DOMAIN,/full:/g' | sed 's/  - DOMAIN-SUFFIX,//g' | sed 's/  - DOMAIN-KEYWORD,/keyword:/g'
+          ACL4SSR_SED: grep DOMAIN | grep -v "#" | sed 's/DOMAIN,/full:/g' | sed 's/DOMAIN-SUFFIX,//g' | sed 's/DOMAIN-KEYWORD,/keyword:/g'
+        run: |
+          cd rules-dat || exit 1
+          curl -sSL https://github.com/v2fly/domain-list-community/raw/master/data/private > data/private
+
+          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/ChinaMax/ChinaMax_Domain.txt | sed '/^\s*#/d' | sed '/^[^\.]/ s/^/full:/' |  sed 's/^\.\([^.]*\)/\1/' > data/cn
+          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/OpenAI/OpenAI.yaml | ${{ env.BM7_SED }} > data/openai
+          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/OneDrive/OneDrive.yaml | ${{ env.BM7_SED }} > data/onedrive
+          echo "sharepoint.cn" >> data/onedrive
+          curl -sSL https://github.com/ACL4SSR/ACL4SSR/raw/master/Clash/ProxyMedia.list | ${{ env.ACL4SSR_SED }} > data/proxymedia
+          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/Telegram/Telegram.yaml | ${{ env.BM7_SED }} > data/telegram
+          go run ./ --datapath=data --outputname geosite-lite.dat
+
+      - name: Move files
+        run: |
+          mkdir -p publish/
+          install -Dp rules-dat/geosite-lite.dat ./publish/
+
+      - name: Git push assets to "release" branch
+        run: |
+          cd publish || exit 1
+          git init
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b release
+          git add .
+          git commit -m "Released on ${{ env.BUILDTIME }}"
+          git remote add origin "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
+          git push -f -u origin release
