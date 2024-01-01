@@ -55,6 +55,7 @@ jobs:
 
           curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/ChinaMax/ChinaMax_Domain.txt | sed '/^\s*#/d' | sed '/^[^\.]/ s/^/full:/' |  sed 's/^\.\([^.]*\)/\1/' > data/cn
           sed -i '/ooklaserver\.net/d' data/cn
+          sed -i '/chinaunicomglobal\.com/d' data/cn
           curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/OpenAI/OpenAI.yaml | ${{ env.BM7_SED }} > data/openai
           curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/OneDrive/OneDrive.yaml | ${{ env.BM7_SED }} > data/onedrive
           echo "sharepoint.cn" >> data/onedrive
