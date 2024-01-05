@@ -64,10 +64,15 @@ jobs:
           curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/Telegram/Telegram.yaml | ${{ env.BM7_SED }} > data/telegram
           go run ./ --datapath=data --outputname geosite-lite.dat
 
+      - name: Build sing-box db
+        run: |
+          go run github.com/metacubex/geo/cmd/geo@master convert site -i v2ray -o sing -f geosite-lite.db rules-dat/geosite-lite.dat
+
       - name: Move files
         run: |
           mkdir -p publish/
           install -Dp rules-dat/geosite-lite.dat ./publish/
+          install -Dp geosite-lite.db ./publish/
 
       - name: Git push assets to "release" branch
         run: |
