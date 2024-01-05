@@ -1,5 +1,5 @@
 # 自用 geosite-lite.dat
-  - [Github raw](https://github.com/MetaCubeX/meta-rules-dat/raw/release/geosite-lite.db)
+  - [Github raw](https://github.com/antonchen/rules-dat/raw/release/geosite-lite.dat)
   - [JSdelivr](https://cdn.jsdelivr.net/gh/antonchen/rules-dat@release/geosite-lite.dat)
   - [JSdelivr-CF](https://testingcf.jsdelivr.net/gh/antonchen/rules-dat@release/geosite-lite.dat)
 
