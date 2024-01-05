@@ -28,45 +28,55 @@ jobs:
           repository: antonchen/rules-dat
           path: rules-dat
 
-      - name: Create google-cn and apple-cn
-        run: |
-          mkdir -p rules-dat/data
-          curl -sSL $GOOGLE_DOMAINS_URL | perl -ne '/^server=\/([^\/]+)\// && print "full:$1\n"' > rules-dat/data/google-cn
-          curl -sSL $APPLE_DOMAINS_URL | perl -ne '/^server=\/([^\/]+)\// && print "full:$1\n"' > rules-dat/data/apple-cn
-          curl -sSL $WIN_SPY | grep "0.0.0.0" | awk '{print $2}' > rules-dat/data/win-spy
-          curl -sSL $WIN_UPDATE | grep "0.0.0.0" | awk '{print $2}' > rules-dat/data/win-update
-
-      - name: Create steam and steam@cn
+      - name: Merge steam and steam@cn
         env:
           SED: sed '/^\s*#/d' | sed 's/DOMAIN,//g' | sed 's/DOMAIN-SUFFIX,//g' | sed 's/DOMAIN-KEYWORD,/keyword:/g'
         run: |
-          curl -sSL https://github.com/v2fly/domain-list-community/raw/master/data/steam > rules-dat/data/steam
+          mkdir -p rules-dat/site
+          curl -sSL https://github.com/v2fly/domain-list-community/raw/master/data/steam > rules-dat/site/steam
           curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/SteamCN/SteamCN.yaml | ${{ env.SED }} > steamcn.txt
-          while read line; do grep -q "$line @cn" rules-dat/data/steam || sed -i "/$line/ s/$/ @cn/" rules-dat/data/steam; done < steamcn.txt
+          while read line; do grep -q "$line @cn" rules-dat/site/steam || sed -i "/$line/ s/$/ @cn/" rules-dat/site/steam; done < steamcn.txt
           rm -f steamcn.txt
 
       - name: Build geosite-lite.dat file
         env:
-          BM7_SED: grep DOMAIN | grep -v "#" | sed 's/  - DOMAIN,/full:/g' | sed 's/  - DOMAIN-SUFFIX,//g' | sed 's/  - DOMAIN-KEYWORD,/keyword:/g'
+          BM7_SED: grep DOMAIN | grep -v "#" | sed 's/ *- DOMAIN,/full:/g' | sed 's/ *- DOMAIN-SUFFIX,//g' | sed 's/ *- DOMAIN-KEYWORD,/keyword:/g'
           ACL4SSR_SED: grep DOMAIN | grep -v "#" | sed 's/DOMAIN,/full:/g' | sed 's/DOMAIN-SUFFIX,//g' | sed 's/DOMAIN-KEYWORD,/keyword:/g'
         run: |
           cd rules-dat || exit 1
-          curl -sSL https://github.com/v2fly/domain-list-community/raw/master/data/private > data/private
+          curl -sSL $GOOGLE_DOMAINS_URL | perl -ne '/^server=\/([^\/]+)\// && print "full:$1\n"' > site/google-cn
+          curl -sSL $APPLE_DOMAINS_URL | perl -ne '/^server=\/([^\/]+)\// && print "full:$1\n"' > site/apple-cn
+          curl -sSL $WIN_SPY | grep "0.0.0.0" | awk '{print $2}' > site/win-spy
+          curl -sSL $WIN_UPDATE | grep "0.0.0.0" | awk '{print $2}' > site/win-update
 
-          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/ChinaMax/ChinaMax_Domain.txt | sed '/^\s*#/d' | sed '/^[^\.]/ s/^/full:/' |  sed 's/^\.\([^.]*\)/\1/' > data/cn
-          sed -i '/ooklaserver\.net/d' data/cn
-          sed -i '/chinaunicomglobal\.com/d' data/cn
-          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/Netflix/Netflix.yaml | ${{ env.BM7_SED }} > data/netflix
-          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/OpenAI/OpenAI.yaml | ${{ env.BM7_SED }} > data/openai
-          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/OneDrive/OneDrive.yaml | ${{ env.BM7_SED }} > data/onedrive
-          echo "sharepoint.cn" >> data/onedrive
-          curl -sSL https://github.com/ACL4SSR/ACL4SSR/raw/master/Clash/ProxyMedia.list | ${{ env.ACL4SSR_SED }} > data/proxymedia
-          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/Telegram/Telegram.yaml | ${{ env.BM7_SED }} > data/telegram
-          go run ./ --datapath=data --outputname geosite-lite.dat
+          curl -sSL https://github.com/v2fly/domain-list-community/raw/master/data/private > site/private
+
+          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/ChinaMax/ChinaMax_Domain.txt | sed '/^\s*#/d' | sed '/^[^\.]/ s/^/full:/' |  sed 's/^\.\([^.]*\)/\1/' > site/cn
+          sed -i '/ooklaserver\.net/d' site/cn
+          sed -i '/chinaunicomglobal\.com/d' site/cn
+          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/Netflix/Netflix.yaml | ${{ env.BM7_SED }} > site/netflix
+          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/OpenAI/OpenAI.yaml | ${{ env.BM7_SED }} > site/openai
+          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/OneDrive/OneDrive.yaml | ${{ env.BM7_SED }} > site/onedrive
+          echo "sharepoint.cn" >> site/onedrive
+          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/GlobalMedia/GlobalMedia_Classical.yaml | ${{ env.BM7_SED }} > site/global-media
+          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/Telegram/Telegram.yaml | ${{ env.BM7_SED }} > site/telegram
+
+          # Japan Media
+          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/DMM/DMM.yaml | ${{ env.BM7_SED }} > site/jp-media.tmp
+          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/Abema/Abema.yaml | ${{ env.BM7_SED }} > site/jp-media.tmp
+          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/Niconico/Niconico.yaml | ${{ env.BM7_SED }} > site/jp-media.tmp
+          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/HuluJP/HuluJP.yaml | ${{ env.BM7_SED }} > site/jp-media.tmp
+          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/TVer/TVer.yaml | ${{ env.BM7_SED }} > site/jp-media.tmp
+          curl -sSL https://github.com/xuanranran/Clash/raw/main/yaml/Japan_Media.yaml | ${{ env.BM7_SED }} > site/jp-media.tmp
+          sort site/jp-media.tmp | uniq > site/jp-media; rm -f site/jp-media.tmp
+
+          go run ./ --datapath=site --outputname geosite-lite.dat
 
       - name: Build sing-box db
         run: |
-          go run github.com/metacubex/geo/cmd/geo@master convert site -i v2ray -o sing -f geosite-lite.db rules-dat/geosite-lite.dat
+          wget -q https://github.com/MetaCubeX/geo/releases/download/latest/geo-linux-amd64 -O geo
+          chmod +x geo
+          ./geo convert site -i v2ray -o sing -f geosite-lite.db rules-dat/geosite-lite.dat
 
       - name: Move files
         run: |

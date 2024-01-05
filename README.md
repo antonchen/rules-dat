@@ -15,4 +15,5 @@
   - `geosite:openai` - [blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Clash/OpenAI)
   - `geosite:onedrive` - [ios_rule_script/OneDrive](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Clash/OneDrive)
   - `geosite:telegram` - [blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Clash/Telegram)
-  - `geosite:proxymedia` - [ACL4SSR/ACL4SSR](https://github.com/ACL4SSR/ACL4SSR/blob/master/Clash/ProxyMedia.list)
+  - `geosite:global-media` - [blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Clash/GlobalMedia)
+  - `geosite:jp-media` - blackmatrix7/ios_rule_script 与 [xuanranran/Clash](https://github.com/xuanranran/Clash/blob/main/yaml/Japan_Media.yaml) 合并
