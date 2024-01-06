@@ -52,8 +52,7 @@ jobs:
           curl -sSL https://github.com/v2fly/domain-list-community/raw/master/data/private > site/private
 
           curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/ChinaMax/ChinaMax_Domain.txt | sed '/^\s*#/d' | sed '/^[^\.]/ s/^/full:/' |  sed 's/^\.\([^.]*\)/\1/' > site/cn
-          sed -i '/ooklaserver\.net/d' site/cn
-          sed -i '/chinaunicomglobal\.com/d' site/cn
+          python3 rules/delete.py rules/delete-in-cn.txt site/cn
           curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/Netflix/Netflix.yaml | ${{ env.BM7_SED }} > site/netflix
           curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/OpenAI/OpenAI.yaml | ${{ env.BM7_SED }} > site/openai
           curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/OneDrive/OneDrive.yaml | ${{ env.BM7_SED }} > site/onedrive
