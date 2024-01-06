@@ -52,7 +52,7 @@ jobs:
           curl -sSL https://github.com/v2fly/domain-list-community/raw/master/data/private > site/private
 
           curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/ChinaMax/ChinaMax_Domain.txt | sed '/^\s*#/d' | sed '/^[^\.]/ s/^/full:/' |  sed 's/^\.\([^.]*\)/\1/' > site/cn
-          python3 rules/delete.py rules/delete-in-cn.txt site/cn
+          python3 resouces/delete.py rules/delete-in-cn.txt site/cn
           curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/Netflix/Netflix.yaml | ${{ env.BM7_SED }} > site/netflix
           curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/OpenAI/OpenAI.yaml | ${{ env.BM7_SED }} > site/openai
           curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/OneDrive/OneDrive.yaml | ${{ env.BM7_SED }} > site/onedrive
@@ -77,11 +77,16 @@ jobs:
           chmod +x geo
           ./geo convert site -i v2ray -o sing -f geosite-lite.db rules-dat/geosite-lite.dat
 
+      - name: Build sing-box srs
+        run: |
+          bash rules-dat/resouces/db2srs.sh
+
       - name: Move files
         run: |
           mkdir -p publish/
-          install -Dp rules-dat/geosite-lite.dat ./publish/
-          install -Dp geosite-lite.db ./publish/
+          install -Dp rules-dat/geosite-lite.dat publish/
+          install -Dp geosite-lite.db publish/
+          mv sing publish/
 
       - name: Git push assets to "release" branch
         run: |

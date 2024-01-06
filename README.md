@@ -1,7 +1,28 @@
-# 自用 geosite-lite.dat
+# 自用代理规则
+### V2Ray GoeX
   - [Github raw](https://github.com/antonchen/rules-dat/raw/release/geosite-lite.dat)
   - [JSdelivr](https://cdn.jsdelivr.net/gh/antonchen/rules-dat@release/geosite-lite.dat)
   - [JSdelivr-CF](https://testingcf.jsdelivr.net/gh/antonchen/rules-dat@release/geosite-lite.dat)
+### Sing-Box db
+  - [Github raw](https://github.com/antonchen/rules-dat/raw/release/geosite-lite.db)
+  - [JSdelivr](https://cdn.jsdelivr.net/gh/antonchen/rules-dat@release/geosite-lite.db)
+  - [JSdelivr-CF](https://testingcf.jsdelivr.net/gh/antonchen/rules-dat@release/geosite-lite.db)
+### Sing-Box srs
+
+*Base url*
+
+Github raw
+```
+https://github.com/antonchen/rules-dat/raw/release/sing
+```
+JSdelivr
+```
+https://cdn.jsdelivr.net/gh/antonchen/rules-dat@release/sing
+```
+JSdelivr-CF
+```
+https://testingcf.jsdelivr.net/gh/antonchen/rules-dat@release/sing
+```
 
 # 内容
   - `geosite:private`
