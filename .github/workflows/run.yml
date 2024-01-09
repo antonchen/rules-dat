@@ -52,7 +52,6 @@ jobs:
           curl -sSL https://github.com/v2fly/domain-list-community/raw/master/data/private > site/private
 
           curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/ChinaMax/ChinaMax_Domain.txt | sed '/^\s*#/d' | sed '/^[^\.]/ s/^/full:/' |  sed 's/^\.\([^.]*\)/\1/' > site/cn
-          python3 resouces/delete.py rules/delete-in-cn.txt site/cn
           curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/Netflix/Netflix.yaml | ${{ env.BM7_SED }} > site/netflix
           curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/OpenAI/OpenAI.yaml | ${{ env.BM7_SED }} > site/openai
           curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/OneDrive/OneDrive.yaml | ${{ env.BM7_SED }} > site/onedrive
@@ -70,6 +69,7 @@ jobs:
           curl -sSL https://github.com/xuanranran/Clash/raw/main/yaml/Japan_Media.yaml | ${{ env.BM7_SED }} > site/jp-media.tmp
           sort site/jp-media.tmp | uniq > site/jp-media; rm -f site/jp-media.tmp
 
+          python3 resouces/merge-rules.py rules site
           go run ./ --datapath=site --outputname geosite-lite.dat
 
       - name: Build sing-box db
