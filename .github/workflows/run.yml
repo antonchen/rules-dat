@@ -57,9 +57,10 @@ jobs:
           curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/OpenAI/OpenAI.yaml | ${{ env.BM7_SED }} > site/openai
           curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/OneDrive/OneDrive.yaml | ${{ env.BM7_SED }} > site/onedrive
           echo "sharepoint.cn" >> site/onedrive
-          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/GlobalMedia/GlobalMedia_Classical.yaml | ${{ env.BM7_SED }} > site/global-media
+          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/Reddit/Reddit.yaml | ${{ env.BM7_SED }} > site/reddit
           curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/Telegram/Telegram.yaml | ${{ env.BM7_SED }} > site/telegram
-
+          # Global Media
+          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/GlobalMedia/GlobalMedia_Classical.yaml | ${{ env.BM7_SED }} > site/global-media
           # Japan Media
           curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/DMM/DMM.yaml | ${{ env.BM7_SED }} > site/jp-media.tmp
           curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/Abema/Abema.yaml | ${{ env.BM7_SED }} > site/jp-media.tmp
