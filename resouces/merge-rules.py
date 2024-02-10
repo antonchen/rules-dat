@@ -25,8 +25,9 @@ def delete_line(rules_file, dest_file):
                 f.write(line)
             else:
                 print("Delete line: {} in {}".format(line.strip(), os.path.basename((dest_file))))
+
 def add_line(rules_file, dest_file):
-    """添加 rules_file 中的行到 dest_file，添加前检查不包含"""
+    """添加 rules_file 中的行到 dest_file, 添加前检查不包含"""
     fix_file(rules_file)
     with open(rules_file, "r") as f:
         lines = f.readlines()
@@ -44,9 +45,13 @@ def merge_rules(rules_dir, dest_dir):
     """合并 rules_dir 目录下的所有文件到 dest_dir"""
     for file in os.listdir(rules_dir):
         if file.endswith(".txt"):
-            action, _, dest = file.split(".")[0].split("-")
+            action = file.split(".")[0].split("-")[0]
+            dest = file.split(".")[0][file.find("-") + 4:]
             rules_file = os.path.join(rules_dir, file)
             dest_file = os.path.join(dest_dir, dest)
+            if not os.path.exists(dest_file):
+                with open(dest_file, "w") as f:
+                    pass
             if action == "delete":
                 delete_line(rules_file, dest_file)
             elif action == "add":

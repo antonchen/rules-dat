@@ -28,21 +28,21 @@ jobs:
           repository: antonchen/rules-dat
           path: rules-dat
 
-      - name: Merge steam and steam@cn
-        env:
-          SED: sed '/^\s*#/d' | sed 's/DOMAIN,//g' | sed 's/DOMAIN-SUFFIX,//g' | sed 's/DOMAIN-KEYWORD,/keyword:/g'
-        run: |
-          mkdir -p rules-dat/site
-          curl -sSL https://github.com/v2fly/domain-list-community/raw/master/data/steam > rules-dat/site/steam
-          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/SteamCN/SteamCN.yaml | ${{ env.SED }} > steamcn.txt
-          while read line; do grep -q "$line @cn" rules-dat/site/steam || sed -i "/$line/ s/$/ @cn/" rules-dat/site/steam; done < steamcn.txt
-          rm -f steamcn.txt
+      # - name: Merge steam and steam@cn
+      #   env:
+      #     BM7_SED: grep DOMAIN | grep -v "#" | sed 's/ *- DOMAIN,/full:/g' | sed 's/ *- DOMAIN-SUFFIX,//g' | sed 's/ *- DOMAIN-KEYWORD,/keyword:/g'
+      #   run: |
+      #     mkdir -p rules-dat/site
+      #     curl -sSL https://github.com/v2fly/domain-list-community/raw/master/data/steam > rules-dat/site/steam
+      #     curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/SteamCN/SteamCN.yaml | ${{ env.BM7_SED }} > steamcn.txt
+      #     while read line; do grep -q "$line @cn" rules-dat/site/steam || sed -i "/$line/ s/$/ @cn/" rules-dat/site/steam; done < steamcn.txt
+      #     rm -f steamcn.txt
 
       - name: Build geosite-lite.dat file
         env:
           BM7_SED: grep DOMAIN | grep -v "#" | sed 's/ *- DOMAIN,/full:/g' | sed 's/ *- DOMAIN-SUFFIX,//g' | sed 's/ *- DOMAIN-KEYWORD,/keyword:/g'
-          ACL4SSR_SED: grep DOMAIN | grep -v "#" | sed 's/DOMAIN,/full:/g' | sed 's/DOMAIN-SUFFIX,//g' | sed 's/DOMAIN-KEYWORD,/keyword:/g'
         run: |
+          mkdir -p rules-dat/site
           cd rules-dat || exit 1
           curl -sSL $GOOGLE_DOMAINS_URL | perl -ne '/^server=\/([^\/]+)\// && print "full:$1\n"' > site/google-cn
           curl -sSL $APPLE_DOMAINS_URL | perl -ne '/^server=\/([^\/]+)\// && print "full:$1\n"' > site/apple-cn
