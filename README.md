@@ -30,6 +30,7 @@ https://testingcf.jsdelivr.net/gh/antonchen/rules-dat@release/sing
   - `geosite:steam-cn` [Dogfight360](https://www.dogfight360.com/blog/knowledge-base/%e5%a6%82%e4%bd%95%e6%8f%90%e9%ab%98steam%e7%9a%84%e4%b8%8b%e8%bd%bd%e9%80%9f%e5%ba%a6%e4%b8%ad%e5%9b%bd%e5%a4%a7%e9%99%86%e5%9c%b0%e5%8c%ba/)
   - `geosite:google-cn`
   - `geosite:apple-cn`
+  - `geosite:tracker`
   - `geosite:win-spy`
   - `geosite:win-update`
   - `geosite:netflix` - [blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Clash/Netflix)
