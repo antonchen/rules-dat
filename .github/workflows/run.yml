@@ -30,7 +30,8 @@ jobs:
 
       - name: Build geosite-lite.dat file
         env:
-          BM7_SED: grep DOMAIN | grep -v "#" | sed 's/ *- DOMAIN,/full:/g' | sed 's/ *- DOMAIN-SUFFIX,//g' | sed 's/ *- DOMAIN-KEYWORD,/keyword:/g'
+          YAML_SED: grep DOMAIN | grep -v "#" | sed 's/ *- DOMAIN,/full:/g' | sed 's/ *- DOMAIN-SUFFIX,//g' | sed 's/ *- DOMAIN-KEYWORD,/keyword:/g'
+          LIST_SED: grep DOMAIN | grep -v "#" | sed 's/ *DOMAIN,/full:/g' | sed 's/ *DOMAIN-SUFFIX,//g' | sed 's/ *DOMAIN-KEYWORD,/keyword:/g'
         run: |
           mkdir -p rules-dat/site
           cd rules-dat || exit 1
@@ -42,22 +43,26 @@ jobs:
           curl -sSL https://github.com/v2fly/domain-list-community/raw/master/data/private > site/private
 
           curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/ChinaMax/ChinaMax_Domain.txt | sed '/^\s*#/d' | sed '/^[^\.]/ s/^/full:/' |  sed 's/^\.\([^.]*\)/\1/' > site/cn
-          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/Netflix/Netflix.yaml | ${{ env.BM7_SED }} > site/netflix
-          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/OpenAI/OpenAI.yaml | ${{ env.BM7_SED }} > site/openai
-          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/OneDrive/OneDrive.yaml | ${{ env.BM7_SED }} > site/onedrive
+          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/Netflix/Netflix.yaml | ${{ env.YAML_SED }} > site/netflix
+          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/OpenAI/OpenAI.yaml | ${{ env.YAML_SED }} > site/openai
+          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/OneDrive/OneDrive.yaml | ${{ env.YAML_SED }} > site/onedrive
           echo "sharepoint.cn" >> site/onedrive
-          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/Reddit/Reddit.yaml | ${{ env.BM7_SED }} > site/reddit
-          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/Telegram/Telegram.yaml | ${{ env.BM7_SED }} > site/telegram
+          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/Reddit/Reddit.yaml | ${{ env.YAML_SED }} > site/reddit
+          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/Telegram/Telegram.yaml | ${{ env.YAML_SED }} > site/telegram
           # Global Media
-          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/GlobalMedia/GlobalMedia_Classical.yaml | ${{ env.BM7_SED }} > site/global-media
+          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/GlobalMedia/GlobalMedia_Classical.yaml | ${{ env.YAML_SED }} > site/global-media
           # Japan Media
-          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/DMM/DMM.yaml | ${{ env.BM7_SED }} > site/jp-media.tmp
-          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/Abema/Abema.yaml | ${{ env.BM7_SED }} > site/jp-media.tmp
-          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/Niconico/Niconico.yaml | ${{ env.BM7_SED }} > site/jp-media.tmp
-          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/HuluJP/HuluJP.yaml | ${{ env.BM7_SED }} > site/jp-media.tmp
-          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/TVer/TVer.yaml | ${{ env.BM7_SED }} > site/jp-media.tmp
-          curl -sSL https://github.com/xuanranran/Clash/raw/main/yaml/Japan_Media.yaml | ${{ env.BM7_SED }} > site/jp-media.tmp
+          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/DMM/DMM.yaml | ${{ env.YAML_SED }} > site/jp-media.tmp
+          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/Abema/Abema.yaml | ${{ env.YAML_SED }} > site/jp-media.tmp
+          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/Niconico/Niconico.yaml | ${{ env.YAML_SED }} > site/jp-media.tmp
+          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/HuluJP/HuluJP.yaml | ${{ env.YAML_SED }} > site/jp-media.tmp
+          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/TVer/TVer.yaml | ${{ env.YAML_SED }} > site/jp-media.tmp
+          curl -sSL https://github.com/xuanranran/Clash/raw/main/yaml/Japan_Media.yaml | ${{ env.YAML_SED }} > site/jp-media.tmp
           sort site/jp-media.tmp | uniq > site/jp-media; rm -f site/jp-media.tmp
+
+          curl -sSL https://github.com/DoingDog/rconvert/raw/main/static/serv/sharing.list | ${{ env.LIST_SED }} > site/sharing
+          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/MEGA/MEGA.list | ${{ env.LIST_SED }} >> site/sharing
+          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Loon/GoogleDrive/GoogleDrive.list | ${{ env.LIST_SED }} >> site/sharing
 
           python3 resouces/merge-rules.py rules site
           go run ./ --datapath=site --outputname geosite-lite.dat
