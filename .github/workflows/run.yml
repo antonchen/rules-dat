@@ -5,7 +5,7 @@ on:
     - cron: "30 22 * * *" # 6:30 AM UTC+8
   push:
     branches:
-      - master
+      - main
     paths-ignore:
       - "**/README.md"
 
@@ -60,9 +60,9 @@ jobs:
           curl -sSL https://github.com/xuanranran/Clash/raw/main/yaml/Japan_Media.yaml | ${{ env.YAML_SED }} > site/jp-media.tmp
           sort site/jp-media.tmp | uniq > site/jp-media; rm -f site/jp-media.tmp
 
-          curl -sSL https://github.com/DoingDog/rconvert/raw/main/static/serv/sharing.list | ${{ env.LIST_SED }} > site/sharing
-          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/MEGA/MEGA.list | ${{ env.LIST_SED }} >> site/sharing
-          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Loon/GoogleDrive/GoogleDrive.list | ${{ env.LIST_SED }} >> site/sharing
+          curl -sSL https://github.com/DoingDog/rconvert/raw/main/static/serv/sharing.list | ${{ env.LIST_SED }} > site/high-traffic
+          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/MEGA/MEGA.list | ${{ env.LIST_SED }} >> site/high-traffic
+          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Loon/GoogleDrive/GoogleDrive.list | ${{ env.LIST_SED }} >> site/high-traffic
 
           python3 resouces/merge-rules.py rules site
           go run ./ --datapath=site --outputname geosite-lite.dat

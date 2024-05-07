@@ -40,4 +40,4 @@ https://testingcf.jsdelivr.net/gh/antonchen/rules-dat@release/sing
   - `geosite:telegram` - [blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Clash/Telegram)
   - `geosite:global-media` - [blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Clash/GlobalMedia)
   - `geosite:jp-media` - blackmatrix7/ios_rule_script 与 [xuanranran/Clash](https://github.com/xuanranran/Clash/blob/main/yaml/Japan_Media.yaml) 合并
-  - `geosite:sharing` - [DoingDog/rconvert](https://github.com/DoingDog/rconvert/blob/main/static/serv/sharing.list) 与 blackmatrix7/ios_rule_script ([MEGA](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Clash/MEGA), [GoogleDrive](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Loon/GoogleDrive)) 合并
+  - `geosite:high-traffic` - [DoingDog/rconvert](https://github.com/DoingDog/rconvert/blob/main/static/serv/sharing.list) 与 blackmatrix7/ios_rule_script ([MEGA](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Clash/MEGA), [GoogleDrive](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Loon/GoogleDrive)) 合并
