@@ -33,6 +33,7 @@ https://testingcf.jsdelivr.net/gh/antonchen/rules-dat@release/sing
   - `geosite:tracker`
   - `geosite:win-spy`
   - `geosite:win-update`
+  - `geosite:docker`
   - `geosite:netflix` - [blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Clash/Netflix)
   - `geosite:openai` - [blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Clash/OpenAI)
   - `geosite:onedrive` - [ios_rule_script/OneDrive](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Clash/OneDrive)
