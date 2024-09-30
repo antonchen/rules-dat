@@ -51,6 +51,7 @@ jobs:
           curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/Telegram/Telegram.yaml | ${{ env.YAML_SED }} > site/telegram
           # Global Media
           curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/GlobalMedia/GlobalMedia_Classical.yaml | ${{ env.YAML_SED }} > site/global-media
+          sed -i '/.*\.jp$/d' site/global-media
           # Japan Media
           curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/DMM/DMM.yaml | ${{ env.YAML_SED }} > site/jp-media.tmp
           curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/Abema/Abema.yaml | ${{ env.YAML_SED }} > site/jp-media.tmp
