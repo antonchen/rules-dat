@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "rules": [
+    {
+      "domain": [
+        "docker.com",
+        "compose-spec.io",
+        "docker.io",
+        "dockerhub.com"
+      ],
+      "domain_suffix": [
+        ".docker.com",
+        ".compose-spec.io",
+        ".docker.io",
+        ".dockerhub.com"
+      ]
+    }
+  ]
+}
