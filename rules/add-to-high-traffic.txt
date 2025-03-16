@@ -2,3 +2,4 @@ objects.githubusercontent.com
 msdv.site
 deb.xanmod.org
 r2.cloudflarestorage.com
+packages.microsoft.com
