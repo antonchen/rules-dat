@@ -4,3 +4,4 @@ deb.xanmod.org
 r2.cloudflarestorage.com
 packages.microsoft.com
 download.nvidia.com
+proxy.golang.org
