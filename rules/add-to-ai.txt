@@ -1,2 +1,5 @@
+keyword:colab
+keyword:developerprofiles
+keyword:generativelanguage
 google.com
 codeassist.google
