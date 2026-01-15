@@ -44,7 +44,7 @@ jobs:
 
           curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/ChinaMax/ChinaMax_Domain.txt | sed '/^\s*#/d' | sed '/^[^\.]/ s/^/full:/' |  sed 's/^\.\([^.]*\)/\1/' > site/cn
           curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/Netflix/Netflix.yaml | ${{ env.YAML_SED }} > site/netflix
-          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/OpenAI/OpenAI.yaml | ${{ env.YAML_SED }} > site/openai
+          curl -sSL https://github.com/DustinWin/domain-list-custom/raw/refs/heads/domains/ai.list | ${{ env.YAML_SED }} > site/ai
           curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/OneDrive/OneDrive.yaml | ${{ env.YAML_SED }} > site/onedrive
           echo "sharepoint.cn" >> site/onedrive
           curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/Reddit/Reddit.yaml | ${{ env.YAML_SED }} > site/reddit

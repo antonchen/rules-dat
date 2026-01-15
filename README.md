@@ -35,7 +35,7 @@ https://testingcf.jsdelivr.net/gh/antonchen/rules-dat@release/sing
   - `geosite:win-update`
   - `geosite:docker`
   - `geosite:netflix` - [blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Clash/Netflix)
-  - `geosite:openai` - [blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Clash/OpenAI)
+  - `geosite:ai` - [DustinWin/domain-list-custom](https://github.com/DustinWin/domain-list-custom/blob/domains/ai.list)
   - `geosite:onedrive` - [ios_rule_script/OneDrive](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Clash/OneDrive)
   - `geosite:reddit` - [blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Clash/Reddit)
   - `geosite:telegram` - [blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Clash/Telegram)
