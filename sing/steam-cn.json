@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "rules": [
+    {
+      "domain": [
+        "cm.steampowered.com",
+        "steamserver.net",
+        "steamcontent.com",
+        "steamchina.com",
+        "steamusercontent.com",
+        "st.dl.eccdnx.com",
+        "st.dl.bscstorage.net",
+        "st.dl.pinyuncloud.com",
+        "dl.steam.clngaa.com",
+        "xz.pphimalayanrt.com",
+        "lv.queniujq.cn",
+        "edge.steam-dns.top.comcast.net",
+        "steampipe-partner.secure2.footprint.net",
+        "steam.eca.qtlglb.com",
+        "steam.naeu.qtlglb.com",
+        "steam.ru.qtlglb.com",
+        "steam.apac.qtlglb.com",
+        "steampipe-kr.akamaized.net",
+        "steampipe-partner.akamaized.net",
+        "steampipe.akamaized.net",
+        "f3b7q2p3.ssl.hwcdn.net",
+        "a4e8s8k3.map2.ssl.hwcdn.net",
+        "steam.cdn.on.net",
+        "steam.cdn.orcon.net.nz",
+        "steam.cdn.slingshot.co.nz",
+        "steam.cdn.webra.ru"
+      ],
+      "domain_suffix": [
+        ".cm.steampowered.com",
+        ".steamserver.net",
+        ".steamcontent.com",
+        ".steamchina.com",
+        ".steamusercontent.com"
+      ]
+    }
+  ]
+}
