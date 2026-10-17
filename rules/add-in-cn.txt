@@ -1,2 +1,0 @@
-deb.debian.org
-r2.cloudflarestorage.com
