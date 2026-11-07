@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "rules": [
+    {
+      "domain": "t.hdhome.org",
+      "domain_keyword": [
+        "announce",
+        "torrent",
+        "tracker"
+      ]
+    }
+  ]
+}
